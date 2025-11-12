@@ -3,7 +3,7 @@
 
   "name": "NatoManga Enhancer",
   "description": "Enhances the NatoManga reading experience with additional features.",
-  "version": "1.2.1",
+  "version": "1.2.3",
 
   "icons": {
     "16": "icons/icon16.png",

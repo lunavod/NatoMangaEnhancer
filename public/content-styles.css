@@ -179,3 +179,44 @@ body.dark .manga-card {
 .done .viewed-icon {
     background: #059e9a;
 }
+
+.comment-item .comment-info {
+    align-items: flex-start;
+}
+
+.comment-item .comment-des {
+    margin-top: -24px;
+    margin-bottom: 6px;
+    padding-left: 58px;
+    color: black;
+}
+
+.comment-item .comment-summary {
+        padding-left: 58px;
+}
+
+.comment-replies {
+    margin: 0;
+}
+
+.guest-only div {
+    border-bottom: 0;
+}
+
+.comment-item .comment-info .title-comment .name {
+    color: #656565;
+}
+
+.comment-item .comment-summary .summary-item span {
+    color: #656565;
+}
+
+.itemupdate.ad {
+    display: none !important;
+    opacity: 0;
+}
+
+.owl-item.ad {
+    display: none !important;
+    opacity: 0;
+}

@@ -12,10 +12,12 @@ function getElementUrl(element: HTMLElement) {
 
 export class HomePage extends Module {
   name = "Home Page";
-  urlMatch = [/^\/$/, /^\/manga\-list\/.*/];
-  inList = window.location.pathname.startsWith("/manga-list/");
+  urlMatch = [/^\/$/, /^\/manga\-list\/.*/, /^\/genre\/.*/];
+  inList = window.location.pathname.startsWith("/manga-list/") || window.location.pathname.startsWith("/genre/");
 
   init() {
+    this.hideAdsInUpdates();
+    this.hideAdsInCarousel();
     this.initPreviews();
     this.filterNotifications();
     this.updateHistoryInfo();
@@ -24,10 +26,35 @@ export class HomePage extends Module {
     console.log("Home Page module initialized");
   }
 
+  hideAdsInCarousel() {
+    const elements = document.querySelectorAll(".slide .owl-item");
+    elements.forEach(element => {
+      const links = [...element.querySelectorAll("a")];
+      const isAd = links.some(link => new URL(link.href).origin !== location.origin);
+      if (isAd) {
+        element.classList.add("ad");
+        console.log("CAROUSEL AD REMOVED");
+      }
+    })
+  }
+
+  hideAdsInUpdates() {
+    if (this.inList) return;
+
+    const cards = document.querySelectorAll(".itemupdate.first");
+    cards.forEach(card => {
+      const validChapter = card.querySelector("ul li i");
+      if (!validChapter) {
+        card.classList.add("ad");
+        console.log("LIST AD REMOVED");
+      }
+    })
+  }
+
   sanitizeDescriptions() {
     if (!this.inList) return;
 
-    const descriptions = document.querySelectorAll('.list-truyen-item-wrap p');
+    const descriptions = document.querySelectorAll('.list-comic-item-wrap p');
     descriptions.forEach((desc) => {
       const title = desc.parentElement?.querySelector('h3') as HTMLHeadingElement;
       console.log("TITLE", title, title.textContent!.trim());

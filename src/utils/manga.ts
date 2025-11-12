@@ -15,6 +15,14 @@ const sanitizers: Sanitizer[] = [
         return [description, false];
     },
     (description: string): [string, boolean] => {
+        const regexp = /You are reading .+, one of the most popular .+ covering in .+ genres, written by.+a top manga site to offering for free\. .+ has \d* translated chapters and translations of other chapters are in progress. Lets enjoy. If you want to get the updates about latest chapters, lets create an account and add .+ to your bookmark\.\s*$/;
+        const match = description.match(regexp);
+        if (match) {
+            return ['', true];
+        }
+        return [description, false];
+    },
+    (description: string): [string, boolean] => {
         const regexp = /.+? summary is updating\. Come visit mangabuddy\.com sometime to read the latest chapter of .+?\. If you have any question about this manga, Please don't hesitate to contact us or translate team\. Hope you enjoy it\.(.*)/;
         const match = description.match(regexp);
         if (match) {
@@ -56,6 +64,10 @@ export function sanitizeDescription(description: string, title: string): string 
             if (wasChanged) {
                 console.log("[sanitizer] Description changed:", description, "->", newDescription);
                 description = newDescription.trim();
+
+                if (!description) {
+                    description = 'No description available';
+                }
                 changed = true;
                 break; // Restart the loop to apply all sanitizers again
             }
